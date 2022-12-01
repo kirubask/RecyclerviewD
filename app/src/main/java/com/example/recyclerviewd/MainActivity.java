@@ -1,6 +1,7 @@
 package com.example.recyclerviewd;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         plusimg = findViewById(R.id.plus_image);
         recycle = findViewById(R.id.recycler_view);
+
+
 
         recycle.setLayoutManager(new LinearLayoutManager(this));
         recycle.setHasFixedSize(true);

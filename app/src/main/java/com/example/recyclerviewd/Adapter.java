@@ -1,11 +1,14 @@
 package com.example.recyclerviewd;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -48,11 +51,36 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Adapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final Adapter.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
             final Details details =detailsModals.get(position);
 
         holder.username.setText(details.getName());
         holder.des.setText(details.getDescription());
+        holder.edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String stringName =holder.username.getText().toString();
+                String stringdescription =holder.des.getText().toString();
+                dbHelper.update(new Details(details.getId(),stringName,stringdescription));
+                notifyDataSetChanged();
+                ((Activity) context).finish();
+                context.startActivity(((Activity)context).getIntent());
+            }
+        });
+
+
+
+        holder.del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            dbHelper.delete(details.getId());
+                detailsModals.remove(position);
+                notifyDataSetChanged();
+
+            }
+        });
+
 
 
     }
@@ -65,6 +93,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
             TextView username;
             TextView des;
+            ImageView edit;
+            ImageView del;
             CardView singlerow;
 
 
@@ -74,6 +104,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             singlerow = itemView.findViewById(R.id.single_row_main);
             username = itemView.findViewById(R.id.usrname_s);
             des = itemView.findViewById(R.id.des_s);
+            del = itemView.findViewById(R.id.delete_btn);
+            edit = itemView.findViewById(R.id.edit_btn);
+
         }
     }
 }

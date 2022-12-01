@@ -3,10 +3,21 @@ package com.example.recyclerviewd.Modal;
 public class Details {
     String name;
     String description;
+    Integer id;
 
-    public Details(String name, String description) {
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Details(Integer id,String name, String description) {
+        this.id = id;
         this.name = name;
         this.description = description;
+
     }
 
 

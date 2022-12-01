@@ -43,7 +43,8 @@ public class user_data_entry extends AppCompatActivity {
 
                 else{
                     DbHelper dbHelper =new DbHelper(user_data_entry.this);
-                    Details details = new Details(uname,des);
+                    Integer id = null;
+                    Details details = new Details(id,uname,des);
                   dbHelper.add(details);
                     Toast.makeText(user_data_entry.this, "added sucessfully", Toast.LENGTH_SHORT).show();
 

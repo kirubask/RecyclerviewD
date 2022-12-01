@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -62,13 +61,28 @@ public class DbHelper extends SQLiteOpenHelper {
         Cursor cursor = sqLiteDatabase.rawQuery(sql,null);
         if (cursor.moveToFirst()){
             do {
+                Integer id = cursor.getInt(0);
                 String name = cursor.getString(1);
                 String description = cursor.getString(2);
-                detailsList.add(new Details(name,description));
+                detailsList.add(new Details(id,name,description));
             }while (cursor.moveToNext());
         }
         cursor.close();
         return detailsList;
+    }
+    public void delete(int id){
+        sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.delete(DATABASE_TABLE,KEY_ID +" = ? ",new String[]{String.valueOf(id)});
+    }
+
+    public void update(Details details){
+        ContentValues cv = new ContentValues();
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        cv.put(DbHelper.USER_NAME,details.getName());
+        cv.put(DbHelper.DesCRIPTION,details.getDescription());
+        sqLiteDatabase.update(DATABASE_TABLE,cv,KEY_ID +" =?",new String[]{String.valueOf(details.getId())} );
+
+
     }
 
 
